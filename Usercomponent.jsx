@@ -14,9 +14,9 @@ const Usercomponent = () => {
     }
     const saveData =(e)=>{
         e.preventDefault()
-        if(id!=""){
+        if(id!==""){
             let res=data.map((i,index)=>{
-                if(index == id){
+                if(index === id){
                     i.name= name
                     i.age=age
                     i.salary=salary
