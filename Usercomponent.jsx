@@ -1,135 +1,190 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, Form, Row, Col, Button, Table } from 'react-bootstrap';
-
+import { Container, Form, Row, Col, Button, Table } from 'react-bootstrap';
+import styles from './Usercomponent.module.css'; 
 
 const Usercomponent = () => {
-    const [name,setName]=useState('')
-    const [age,setAge]=useState('')
-    const [salary,setSalary]=useState('')
-    const[id,setId]=useState('')
-    const[data,setData]=useState([])
-    let handleAge=(e)=>{
-        setAge(e.target.value)
+  const [firstname, setName] = useState('');
+  const [lastname, setLastName] = useState('');
+  const [age, setAge] = useState('');
+  const [phoneno, setPhoneno] = useState('');
+  const [address, setAddress] = useState('');
+  const [email, setEmail] = useState('');
+  const [id, setId] = useState('');
+  const [data, setData] = useState([]);
+
+  const handleAge = (e) => setAge(e.target.value);
+
+  const saveData = (e) => {
+    e.preventDefault();
+    if (id !== '') {
+      let res = data.map((i, index) =>
+        index === id
+          ? { firstname, lastname, age, phoneno, address, email }
+          : i
+      );
+      setData(res);
+    } else {
+      setData([...data, { firstname, lastname, age, phoneno, address, email }]);
     }
-    const saveData =(e)=>{
-        e.preventDefault()
-        if(id!==""){
-            let res=data.map((i,index)=>{
-                if(index === id){
-                    i.name= name
-                    i.age=age
-                    i.salary=salary
-                }       
-                return i
-            })
-            setData(res)
-        }else{
-              setData([
-            ...data,
-            {name,age,salary}
-            // {
-                // "name":name,
-                // "age":age,
-                // "salary":salary
-            // }
-        ]);
-        }
+    resetForm();
+  };
+
+  const delData = (id) => {
+    let res = data.filter((_, index) => index !== id);
+    setData(res);
+  };
+
+  const editData = (id) => {
+    let res = data.find((_, index) => index === id);
+    setName(res.firstname);
+    setLastName(res.lastname);
+    setAge(res.age);
+    setPhoneno(res.phoneno);
+    setAddress(res.address);
+    setEmail(res.email);
+    setId(id);
+  };
+
+  const resetForm = () => {
+    setName('');
+    setLastName('');
+    setAge('');
+    setPhoneno('');
+    setAddress('');
+    setEmail('');
+    setId('');
+  };
+
+  return (
+    <div className={styles.wrapper}>
+         <h3 className={styles.title}>User Registration Form</h3>
       
-        setName('')
-        setAge('')
-        setSalary('')
-        setId('')
-    }
-    const delData =(id)=>{
-        let res=data.filter((i,index) =>{
-            return index!=id;
-        });
-        setData(res);
-    }
-     const editData =(id)=>{
-        let res=data.find((i,index) =>{
-            return index == id;
-        });
-        setName(res.name);
-        setAge(res.age);
-        setSalary(res.salary);
-        setId(id);
-        
-    }
+     
+      <Container fluid="md">
+        <Row>
+          <Col>
+            <Form onSubmit={saveData} className={styles.form}>
+              {/* Firstname */}
+              <Form.Group className="mb-3">
+                <Form.Label>Firstname</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter First name"
+                  value={firstname}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </Form.Group>
 
+              {/* Lastname */}
+              <Form.Group className="mb-3">
+                <Form.Label>Lastname</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Last name"
+                  value={lastname}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+              </Form.Group>
 
-    return (
-        <div>
-            <h3>User Registration Form</h3>
-            <Container fluid="md">
-                <Row>
-                    <Col>
-                        <Form name="frm" method="post" action="#" onSubmit={saveData}>
+              {/* Age */}
+              <Form.Group className="mb-3">
+                <Form.Label>Age</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter age"
+                  value={age}
+                  onChange={handleAge}
+                />
+              </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formGroupEmail">
-                                <Form.Label>Username</Form.Label>
-                                <Form.Control type="text" placeholder="Enter name" name="name" onChange={(e)=>setName(e.target.value)} value={name}/>
-                            </Form.Group>
+              {/* Phone */}
+              <Form.Group className="mb-3">
+                <Form.Label>Phone No.</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter phone no"
+                  value={phoneno}
+                  onChange={(e) => setPhoneno(e.target.value)}
+                />
+              </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formgroupPassword">
-                                <Form.Label>Age</Form.Label>
-                                <Form.Control type="number" placeholder="Enter age" name="age"  onChange={handleAge} value={age}/>
-                            </Form.Group>
+              {/* Address */}
+              <Form.Group className="mb-3">
+                <Form.Label>Address</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  placeholder="Enter Address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formGroupsal">
-                                <Form.Label>Salary</Form.Label>
-                                <Form.Control type="number" placeholder="Enter salary" name="salary"  onChange={(e)=>setSalary(e.target.value)} value={salary}/>
-                            </Form.Group>
+              {/* Email */}
+              <Form.Group className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="name@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Group>
 
-                            <Button variant="primary" type="submit">
-                                Submit
-                            </Button>
-                            <Button variant="secondary" type="reset" >
-                                Cancel
-                            </Button>
-                        </Form>
-                    </Col>
-                    <Col>
-                        <Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Username</th>
-                                    <th>Age</th>
-                                    <th>Salary</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    data.map((i,index)=>{
-                                        return(
-                                <tr>
-                                    <td>{index + 1}</td>
-                                    <td>{i.name}</td>
-                                    <td>{i.age}</td>
-                                    <td>{i.salary}</td>
-                                    <td>
-                                        <Button variant="primary" type="submit" onClick={()=>editData(index)}>
-                                            Edit
-                                        </Button>
-                                        <Button variant="secondary" type="reset" onClick={()=>delData(index)}>
-                                            Delete
-                                        </Button>
-                                    </td>
-                                </tr>
-                                )
-                             })
-                           
-                             }
-                        </tbody>
-                        </Table>
-                    </Col>
-                </Row>
-            </Container>
-        </div>
-    )
+              <Button variant="danger" type="submit">
+                Submit
+              </Button>{' '}
+              <Button variant="secondary" onClick={resetForm}>
+                Cancel
+              </Button>
+            </Form>
+          </Col>
 
-}
-export default Usercomponent
+          <Col>
+            <Table striped bordered hover className={styles.table}>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Firstname</th>
+                  <th>Lastname</th>
+                  <th>Age</th>
+                  <th>Phone no.</th>
+                  <th>Address</th>
+                  <th>Email</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((i, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{i.firstname}</td>
+                    <td>{i.lastname}</td>
+                    <td>{i.age}</td>
+                    <td>{i.phoneno}</td>
+                    <td>{i.address}</td>
+                    <td>{i.email}</td>
+                    <td>
+                      <Button variant="danger" onClick={() => editData(index)}>
+                        Edit
+                      </Button>{' '}
+                      <Button
+                        variant="secondary"
+                        onClick={() => delData(index)}
+                      >
+                        Delete
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
+};
+
+export default Usercomponent;
