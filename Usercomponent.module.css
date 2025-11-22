@@ -1,0 +1,35 @@
+.wrapper {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+/* .image{
+    width: 100px;
+     display: block;
+    align-items: center;
+    height:50px;
+    border-radius: 5%;
+} */
+
+.banner {
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: bold;
+}
+
+.form {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.table {
+  margin-top: 20px;
+  background: #fff;
+}
